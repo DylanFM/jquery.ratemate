@@ -19,13 +19,32 @@
     }
   };
   setupDisplay = function(el) {
-    return new RatingDisplay(el);
+    return new RatingDisplay(el, el.attr('value'));
   };
-  RatingDisplay = function(el) {
+  RatingDisplay = function(el, _arg) {
+    this.rating = _arg;
     this.el = $(el);
     this.el.addClass('has_ratemate');
+    this.mate = $('<div class="ratemate"></div>');
+    this.el.after(this.mate);
     this.buildCanvas();
     return this;
   };
-  RatingDisplay.prototype.buildCanvas = function() {};
+  RatingDisplay.prototype.getMate = function() {
+    return this.mate.get()[0];
+  };
+  RatingDisplay.prototype.buildCanvas = function() {
+    this.createCanvas();
+    return this.attackCanvas();
+  };
+  RatingDisplay.prototype.createCanvas = function() {
+    return (this.canvas = Raphael(this.getMate(), 400, 70));
+  };
+  RatingDisplay.prototype.attackCanvas = function() {
+    var star;
+    star = "M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z";
+    return this.canvas.path(star).attr({
+      stroke: '#ecc000'
+    });
+  };
 }).call(this);
