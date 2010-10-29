@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <h1>Example usage</h1>
+    <h2>Viewing a rating</h2>
+    <meter max="5" min="0" value="3.0">3.0 out of 5.0</meter>    
+    <pre>
+      &lt;meter max="5" min="0" value="3.0"&gt;
+        3.0 out of 5.0
+      &lt;/meter&gt;
+    </pre>
+    <h2>Setting a rating</h2>
+    <input id="rating" max="5.0" min="0.0" name="rating" step="0.5" type="number" value="0.0">
+    <pre>
+      &lt;input id="rating" max="5.0" min="0.0" name="rating" step="0.5" type="number" value="0.0"&gt;
+    </pre>
+    <script src="../lib/jquery-1.4.3.min.js"></script>
+    <script src="../lib/raphael-min.js"></script>
+    <script src="../src/compiled/jquery.ratemate.js"></script>
+    <script>
+      $(function () {
+        $('meter').ratemate();
+      });
+    </script>
+  </body>
+</html>
