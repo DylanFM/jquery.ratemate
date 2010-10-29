@@ -52,22 +52,12 @@ class RatingDisplay
       # Let's do the important stuff now...
       @buildCanvas()
 
-  # More convenient
-  getMate: ->
-    # Just gets the DOM element
-    @mate.get()[0]
-
   # This is just going to call a couple of methods responsible for setting this up
   buildCanvas: ->
-    # First of all, we need a canvas
-    @createCanvas()
+    # We want a Raphaël canvas containing stars whose characteristics show the rating
+    @canvas = Raphael @mate.get()[0], 110, 30
     # Paint the picture
     @attackCanvas()
-
-  # Init the Raphaël canvas in the element
-  createCanvas: ->
-    # We want a Raphaël canvas containing stars whose characteristics show the rating
-    @canvas = Raphael @getMate(), 110, 30
 
   # We want to put stars in the canvas to show the rating
   attackCanvas: ->

@@ -32,15 +32,9 @@
     }
     return this;
   };
-  RatingDisplay.prototype.getMate = function() {
-    return this.mate.get()[0];
-  };
   RatingDisplay.prototype.buildCanvas = function() {
-    this.createCanvas();
+    this.canvas = Raphael(this.mate.get()[0], 110, 30);
     return this.attackCanvas();
-  };
-  RatingDisplay.prototype.createCanvas = function() {
-    return (this.canvas = Raphael(this.getMate(), 110, 30));
   };
   RatingDisplay.prototype.attackCanvas = function() {
     var _ref, _result, i, star, star1, star2, star3, star4, star5;
