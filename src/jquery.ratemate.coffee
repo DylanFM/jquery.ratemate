@@ -41,14 +41,16 @@ class RatingDisplay
   constructor: (el, @rating) ->
     # Let's keep a jQuery object in here
     @el = $ el
-    # Add a class to show this is going on
-    @el.addClass 'has_ratemate'
-    # We're going to put the display in a sibling
-    @mate = $ '<div class="ratemate"></div>'
-    # Insert it after the element
-    @el.after @mate
-    # Let's do the important stuff now...
-    @buildCanvas()
+    # Make sure this isn't ratemated already
+    unless @el.hasClass 'has_ratemate'
+      # Add a class to show this is going on
+      @el.addClass 'has_ratemate'
+      # We're going to put the display in a sibling
+      @mate = $ '<div class="ratemate"></div>'
+      # Insert it after the element
+      @el.after @mate
+      # Let's do the important stuff now...
+      @buildCanvas()
 
   # More convenient
   getMate: ->
@@ -65,13 +67,29 @@ class RatingDisplay
   # Init the Raphaël canvas in the element
   createCanvas: ->
     # We want a Raphaël canvas containing stars whose characteristics show the rating
-    @canvas = Raphael @getMate(), 400, 70
+    @canvas = Raphael @getMate(), 110, 30
 
   # We want to put stars in the canvas to show the rating
   attackCanvas: ->
-    # This path string is a star from Dmitri's icons
-    star = "M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z"
-    # Let's add a start and paint a border
-    @canvas.path(star).attr
-      stroke: '#ecc000'
+    # This path string is a star from Dmitri's icons, alongside default styles
+    star = 
+      path: "M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z"
+      attr:
+        stroke: '#ecc000'
+        scale: '.5,.5'
 
+    # This isn't abstracted, but it works
+    # We're just creating 5 stars and positioning them
+    star1 = @canvas.path(star.path).attr(star.attr)
+    star2 = star1.clone().translate 20, 0
+    star3 = star2.clone().translate 20, 0
+    star4 = star3.clone().translate 20, 0
+    star5 = star4.clone().translate 20, 0
+    # Now we're collecting them together in an array
+    @stars = [star1, star2, star3, star4, star5]
+
+    # We're grabbing the stars relevant to this rating using a range
+    for i in [0...@rating]
+      # For active stars we'll style them
+      @stars[i].attr
+        fill: '125-#ecc000-#fffbcf'
