@@ -1,5 +1,5 @@
 (function() {
-  var $, setup;
+  var $, RatingDisplay, setup, setupDisplay;
   $ = jQuery;
   $.fn.extend({
     ratemate: function(options) {
@@ -10,6 +10,22 @@
   });
   $.fn.ratemate.defaults = {};
   setup = function() {
-    return console.log("Setting up");
+    var el;
+    el = $(this);
+    if (el.is('input[type="number"]')) {
+      return setupControl(el);
+    } else if (el.is('meter')) {
+      return setupDisplay(el);
+    }
   };
+  setupDisplay = function(el) {
+    return new RatingDisplay(el);
+  };
+  RatingDisplay = function(el) {
+    this.el = $(el);
+    this.el.addClass('has_ratemate');
+    this.buildCanvas();
+    return this;
+  };
+  RatingDisplay.prototype.buildCanvas = function() {};
 }).call(this);
