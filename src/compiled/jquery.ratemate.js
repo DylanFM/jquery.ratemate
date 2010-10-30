@@ -62,7 +62,6 @@
     star5 = star4.clone().translate(20, 0);
     this.stars = [star1, star2, star3, star4, star5];
     rect_attrs = {
-      stroke: 'none',
       fill: 'white',
       opacity: 0
     };

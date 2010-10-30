@@ -85,7 +85,7 @@ class RatingDisplay
 
     # OK, hovering and clicking the stars isn't so user friendly
     # let's make larger targets that sit above the stars
-    rect_attrs = { stroke: 'none', fill: 'white', opacity: 0 }
+    rect_attrs = { fill: 'white', opacity: 0 }
     rect1 = @canvas.rect(6, 6, 20, 20).attr rect_attrs
     rect2 = @canvas.rect(26, 6, 20, 20).attr rect_attrs
     rect3 = @canvas.rect(46, 6, 20, 20).attr rect_attrs
