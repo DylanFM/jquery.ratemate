@@ -3,33 +3,31 @@ $ = jQuery
 # Now we'll have a $(...).ratemate() function
 $.fn.extend
   ratemate: (options) ->
+
     # Merge the default options with the supplied ones
     opts = $.extend {}, $.fn.ratemate.defaults, options
+
     # If we are working on elements
     if this.length
-      # Set up the ratemate
-      this.each setup
+      this.each ->
+
+        el = $ this
+
+        # Let's find out if we're just displaying a rating or providing a control
+        if el.is 'input[type="number"]'
+
+          # In control mode we'll be displaying the rating but also allowing the user to set the rating via the stars
+          el.data 'ratemate', new RatingControl el
+
+        else if el.is 'meter'
+
+          # In display mode we're reading values from a meter element and displaying them in the rating canvas
+          el.data 'ratemate', new RatingDisplay el
+
+        # If the element is not a meter or input[type=number], don't do anything
 
 # These are the default options for ratemate
 $.fn.ratemate.defaults = {}
-
-# The first thing run on a ratemate element, just starts things off
-setup = ->
-  el = $ this
-  # We only want to work on meter or input elements
-  # Let's find out if we're just displaying a rating or providing a control
-  if el.is 'input[type="number"]'
-    # We're providing a control
-    setupControl(el)
-  else if el.is 'meter'
-    # We're just displaying the rating shown in the meter element
-    setupDisplay(el)
-  # If the element is not what we're after, don't do anything
-
-# Only used for setting up a display ratemate
-setupDisplay = (el) ->
-  # In display mode we're reading values from a meter element and displaying them in the rating canvas
-  new RatingDisplay el, el.attr('value')
 
 ##################################################
 ##################################################
@@ -38,11 +36,12 @@ setupDisplay = (el) ->
 # It's a Raphaël canvas with starts showing the rating
 class RatingDisplay
 
-  constructor: (el, @rating) ->
+  constructor: (el) ->
     # Let's keep a jQuery object in here
     @el = $ el
     # Make sure this isn't ratemated already
     unless @el.hasClass 'has_ratemate'
+      @setRating @el.attr 'value'
       # Add a class to show this is going on
       @el.addClass 'has_ratemate'
       # We're going to put the display in a sibling
@@ -51,6 +50,12 @@ class RatingDisplay
       @el.after @mate
       # Let's do the important stuff now...
       @buildCanvas()
+
+  setRating: (value) ->
+    # Set it in this class
+    @rating = parseInt value, 10
+    # Set it on the element
+    @el.attr 'value', @rating
 
   # This is just going to call a couple of methods responsible for setting this up
   buildCanvas: ->
@@ -77,9 +82,54 @@ class RatingDisplay
     star5 = star4.clone().translate 20, 0
     # Now we're collecting them together in an array
     @stars = [star1, star2, star3, star4, star5]
+       
+    # Now let's show it
+    @showRating()
 
+  # Clear the shown rating
+  clear: ->
+    for star in @stars
+      star.attr
+        fill: 'none'
+
+  showRating: (rating) ->
+    rating = rating or @rating
+    # First, clear any current rating shown
+    @clear()
     # We're grabbing the stars relevant to this rating using a range
-    for i in [0...@rating]
+    for i in [0...rating]
       # For active stars we'll style them
       @stars[i].attr
         fill: '125-#ecc000-#fffbcf'
+
+##################################################
+
+# The rating control extends the rating display and allows for controlling the value of the input
+
+class RatingControl extends RatingDisplay
+
+  constructor: (el) ->
+    super el
+    @makeControllable()
+
+  # By clicking a star we're going to set the rating which will be reflected as the input's value
+  makeControllable: ->
+
+    for i in [0...@stars.length]
+
+      star = @stars[i]
+      val = i + 1
+
+      star.click (e) =>
+        @setRating val
+        @showRating()
+
+      star.mouseover (e) =>
+        @showRating val
+
+      star.mouseout (e) =>
+        if @rating
+          @showRating()
+        else 
+          @clear()
+
