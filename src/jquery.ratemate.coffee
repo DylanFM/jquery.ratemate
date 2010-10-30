@@ -60,7 +60,7 @@ class RatingDisplay
   # This is just going to call a couple of methods responsible for setting this up
   buildCanvas: ->
     # We want a Raphaël canvas containing stars whose characteristics show the rating
-    @canvas = Raphael @mate.get()[0], 110, 30
+    @canvas = Raphael @mate.get()[0], 112, 32
     # Paint the picture
     @attackCanvas()
 

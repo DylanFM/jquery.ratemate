@@ -43,7 +43,7 @@
     return this.el.attr('value', this.rating);
   };
   RatingDisplay.prototype.buildCanvas = function() {
-    this.canvas = Raphael(this.mate.get()[0], 110, 30);
+    this.canvas = Raphael(this.mate.get()[0], 112, 32);
     return this.attackCanvas();
   };
   RatingDisplay.prototype.attackCanvas = function() {
