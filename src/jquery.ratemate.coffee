@@ -82,7 +82,18 @@ class RatingDisplay
     star5 = star4.clone().translate 20, 0
     # Now we're collecting them together in an array
     @stars = [star1, star2, star3, star4, star5]
-       
+
+    # OK, hovering and clicking the stars isn't so user friendly
+    # let's make larger targets that sit above the stars
+    rect_attrs = { stroke: 'none', fill: 'white', opacity: 0 }
+    rect1 = @canvas.rect(6, 6, 20, 20).attr rect_attrs
+    rect2 = @canvas.rect(26, 6, 20, 20).attr rect_attrs
+    rect3 = @canvas.rect(46, 6, 20, 20).attr rect_attrs
+    rect4 = @canvas.rect(66, 6, 20, 20).attr rect_attrs
+    rect5 = @canvas.rect(86, 6, 20, 20).attr rect_attrs
+    # Collect them together like the stars
+    @rects = [rect1, rect2, rect3, rect4, rect5]
+
     # Now let's show it
     @showRating()
 
@@ -115,21 +126,34 @@ class RatingControl extends RatingDisplay
   # By clicking a star we're going to set the rating which will be reflected as the input's value
   makeControllable: ->
 
-    for i in [0...@stars.length]
+    # Track that this is a control as well as display
+    @mate.addClass 'control'
 
-      star = @stars[i]
+    # Loop through the rects
+    for i in [0...@rects.length]
+
+      # Set the rect and val for use below
+      rect = @rects[i]
       val = i + 1
 
-      star.click (e) =>
+      # When a star is clicked
+      rect.click (e) =>
+        # Set the rating
         @setRating val
+        # and show it
         @showRating()
 
-      star.mouseover (e) =>
+      # When a star is moused over
+      rect.mouseover (e) =>
+        # Show its value
         @showRating val
 
-      star.mouseout (e) =>
+      # When a star is no longer moused over
+      rect.mouseout (e) =>
+        # If there's a rating, show the rating
         if @rating
           @showRating()
+        # or clear the ratings
         else 
           @clear()
 

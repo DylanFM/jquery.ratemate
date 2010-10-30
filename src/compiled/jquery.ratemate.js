@@ -47,7 +47,7 @@
     return this.attackCanvas();
   };
   RatingDisplay.prototype.attackCanvas = function() {
-    var star, star1, star2, star3, star4, star5;
+    var rect1, rect2, rect3, rect4, rect5, rect_attrs, star, star1, star2, star3, star4, star5;
     star = {
       path: "M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z",
       attr: {
@@ -61,6 +61,17 @@
     star4 = star3.clone().translate(20, 0);
     star5 = star4.clone().translate(20, 0);
     this.stars = [star1, star2, star3, star4, star5];
+    rect_attrs = {
+      stroke: 'none',
+      fill: 'white',
+      opacity: 0
+    };
+    rect1 = this.canvas.rect(6, 6, 20, 20).attr(rect_attrs);
+    rect2 = this.canvas.rect(26, 6, 20, 20).attr(rect_attrs);
+    rect3 = this.canvas.rect(46, 6, 20, 20).attr(rect_attrs);
+    rect4 = this.canvas.rect(66, 6, 20, 20).attr(rect_attrs);
+    rect5 = this.canvas.rect(86, 6, 20, 20).attr(rect_attrs);
+    this.rects = [rect1, rect2, rect3, rect4, rect5];
     return this.showRating();
   };
   RatingDisplay.prototype.clear = function() {
@@ -94,22 +105,23 @@
   __extends(RatingControl, RatingDisplay);
   RatingControl.prototype.makeControllable = function() {
     var _i, _ref, _result, i;
-    _result = []; _ref = this.stars.length;
+    this.mate.addClass('control');
+    _result = []; _ref = this.rects.length;
     for (_i = 0; (0 <= _ref ? _i < _ref : _i > _ref); (0 <= _ref ? _i += 1 : _i -= 1)) {
       (function() {
-        var star, val;
+        var rect, val;
         var i = _i;
         return _result.push((function() {
-          star = this.stars[i];
+          rect = this.rects[i];
           val = i + 1;
-          star.click(__bind(function(e) {
+          rect.click(__bind(function(e) {
             this.setRating(val);
             return this.showRating();
           }, this));
-          star.mouseover(__bind(function(e) {
+          rect.mouseover(__bind(function(e) {
             return this.showRating(val);
           }, this));
-          return star.mouseout(__bind(function(e) {
+          return rect.mouseout(__bind(function(e) {
             return this.rating ? this.showRating() : this.clear();
           }, this));
         }).call(this));
