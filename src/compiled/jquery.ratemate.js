@@ -12,23 +12,21 @@
   };
   $ = jQuery;
   $.fn.extend({
-    ratemate: function(options) {
-      var opts;
-      opts = $.extend({}, $.fn.ratemate.defaults, options);
+    ratemate: function(opts) {
       return this.length ? this.each(function() {
         var el;
         el = $(this);
         if (el.is('input[type="number"]')) {
-          return el.data('ratemate', new RatingControl(el));
+          return el.data('ratemate', new RatingControl(el, opts));
         } else if (el.is('meter')) {
-          return el.data('ratemate', new RatingDisplay(el));
+          return el.data('ratemate', new RatingDisplay(el, opts));
         }
       }) : null;
     }
   });
-  $.fn.ratemate.defaults = {};
-  RatingDisplay = function(el) {
+  RatingDisplay = function(el, opts) {
     this.el = $(el);
+    this.opts = $.extend({}, this.defaults, opts);
     if (!(this.el.hasClass('has_ratemate'))) {
       this.setRating(this.el.attr('value'));
       this.el.addClass('has_ratemate');
@@ -38,12 +36,16 @@
     }
     return this;
   };
+  RatingDisplay.prototype.defaults = {
+    width: 112,
+    height: 32
+  };
   RatingDisplay.prototype.setRating = function(value) {
     this.rating = parseInt(value, 10);
     return this.el.attr('value', this.rating);
   };
   RatingDisplay.prototype.buildCanvas = function() {
-    this.canvas = Raphael(this.mate.get()[0], 112, 32);
+    this.canvas = Raphael(this.mate.get()[0], this.opts.width, this.opts.height);
     return this.attackCanvas();
   };
   RatingDisplay.prototype.attackCanvas = function() {
@@ -96,8 +98,8 @@
     }
     return _result;
   };
-  RatingControl = function(el) {
-    RatingControl.__super__.constructor.call(this, el);
+  RatingControl = function(el, opts) {
+    RatingControl.__super__.constructor.call(this, el, opts);
     this.makeControllable();
     return this;
   };

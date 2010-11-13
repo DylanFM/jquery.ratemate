@@ -2,10 +2,7 @@ $ = jQuery
   
 # Now we'll have a $(...).ratemate() function
 $.fn.extend
-  ratemate: (options) ->
-
-    # Merge the default options with the supplied ones
-    opts = $.extend {}, $.fn.ratemate.defaults, options
+  ratemate: (opts) ->
 
     # If we are working on elements
     if this.length
@@ -17,17 +14,14 @@ $.fn.extend
         if el.is 'input[type="number"]'
 
           # In control mode we'll be displaying the rating but also allowing the user to set the rating via the stars
-          el.data 'ratemate', new RatingControl el
+          el.data 'ratemate', new RatingControl el, opts
 
         else if el.is 'meter'
 
           # In display mode we're reading values from a meter element and displaying them in the rating canvas
-          el.data 'ratemate', new RatingDisplay el
+          el.data 'ratemate', new RatingDisplay el, opts
 
         # If the element is not a meter or input[type=number], don't do anything
-
-# These are the default options for ratemate
-$.fn.ratemate.defaults = {}
 
 ##################################################
 ##################################################
@@ -36,9 +30,11 @@ $.fn.ratemate.defaults = {}
 # It's a Raphaël canvas with starts showing the rating
 class RatingDisplay
 
-  constructor: (el) ->
+  constructor: (el, opts) ->
     # Let's keep a jQuery object in here
     @el = $ el
+    # Merge the default options with the supplied ones
+    @opts = $.extend {}, @defaults, opts
     # Make sure this isn't ratemated already
     unless @el.hasClass 'has_ratemate'
       @setRating @el.attr 'value'
@@ -51,6 +47,10 @@ class RatingDisplay
       # Let's do the important stuff now...
       @buildCanvas()
 
+  defaults:
+    width: 112
+    height: 32
+
   setRating: (value) ->
     # Set it in this class
     @rating = parseInt value, 10
@@ -60,7 +60,7 @@ class RatingDisplay
   # This is just going to call a couple of methods responsible for setting this up
   buildCanvas: ->
     # We want a Raphaël canvas containing stars whose characteristics show the rating
-    @canvas = Raphael @mate.get()[0], 112, 32
+    @canvas = Raphael @mate.get()[0], @opts.width, @opts.height 
     # Paint the picture
     @attackCanvas()
 
@@ -119,8 +119,8 @@ class RatingDisplay
 
 class RatingControl extends RatingDisplay
 
-  constructor: (el) ->
-    super el
+  constructor: (el, opts) ->
+    super el, opts
     @makeControllable()
 
   # By clicking a star we're going to set the rating which will be reflected as the input's value
