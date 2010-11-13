@@ -37,8 +37,12 @@
     return this;
   };
   RatingDisplay.prototype.defaults = {
+    max: 5,
     width: 112,
-    height: 32
+    height: 32,
+    symbol: 'M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z',
+    stroke: '#ecc000',
+    fill: '125-#ecc000-#fffbcf'
   };
   RatingDisplay.prototype.setRating = function(value) {
     this.rating = parseInt(value, 10);
@@ -49,30 +53,25 @@
     return this.attackCanvas();
   };
   RatingDisplay.prototype.attackCanvas = function() {
-    var rect1, rect2, rect3, rect4, rect5, rect_attrs, star, star1, star2, star3, star4, star5;
-    star = {
-      path: "M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z",
-      attr: {
-        stroke: '#ecc000',
+    var _ref, i, rect, star;
+    this.stars = [];
+    this.rects = [];
+    _ref = this.opts.max;
+    for (i = 0; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
+      star = this.canvas.path(this.opts.symbol);
+      star.attr({
+        stroke: this.opts.stroke,
         scale: '.5,.5'
-      }
-    };
-    star1 = this.canvas.path(star.path).attr(star.attr);
-    star2 = star1.clone().translate(20, 0);
-    star3 = star2.clone().translate(20, 0);
-    star4 = star3.clone().translate(20, 0);
-    star5 = star4.clone().translate(20, 0);
-    this.stars = [star1, star2, star3, star4, star5];
-    rect_attrs = {
-      fill: 'white',
-      opacity: 0
-    };
-    rect1 = this.canvas.rect(6, 6, 20, 20).attr(rect_attrs);
-    rect2 = this.canvas.rect(26, 6, 20, 20).attr(rect_attrs);
-    rect3 = this.canvas.rect(46, 6, 20, 20).attr(rect_attrs);
-    rect4 = this.canvas.rect(66, 6, 20, 20).attr(rect_attrs);
-    rect5 = this.canvas.rect(86, 6, 20, 20).attr(rect_attrs);
-    this.rects = [rect1, rect2, rect3, rect4, rect5];
+      });
+      star.translate(i * 20, 0);
+      rect = this.canvas.rect(6 + i * 20, 6, 20, 20);
+      rect.attr({
+        fill: '#fff',
+        opacity: 0
+      });
+      this.rects.push(rect);
+      this.stars.push(star);
+    }
     return this.showRating();
   };
   RatingDisplay.prototype.clear = function() {
@@ -93,7 +92,7 @@
     _result = [];
     for (i = 0; (0 <= rating ? i < rating : i > rating); (0 <= rating ? i += 1 : i -= 1)) {
       _result.push(this.stars[i].attr({
-        fill: '125-#ecc000-#fffbcf'
+        fill: this.opts.fill
       }));
     }
     return _result;

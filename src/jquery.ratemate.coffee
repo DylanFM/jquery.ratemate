@@ -48,8 +48,12 @@ class RatingDisplay
       @buildCanvas()
 
   defaults:
+    max: 5
     width: 112
     height: 32
+    symbol: 'M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z'
+    stroke: '#ecc000'
+    fill: '125-#ecc000-#fffbcf'
 
   setRating: (value) ->
     # Set it in this class
@@ -66,33 +70,31 @@ class RatingDisplay
 
   # We want to put stars in the canvas to show the rating
   attackCanvas: ->
-    # This path string is a star from Dmitri's icons, alongside default styles
-    star = 
-      path: "M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z"
-      attr:
-        stroke: '#ecc000'
+
+    # Create the stars
+    @stars = []
+    @rects = [] # The rects sit above the stars to create a larger hover area 
+
+    for i in [0...@opts.max]
+
+      # Create the star
+      star = @canvas.path @opts.symbol
+      # Style it
+      star.attr
+        stroke: @opts.stroke
         scale: '.5,.5'
+      # Position it
+      star.translate i * 20, 0
 
-    # This isn't abstracted, but it works
-    # We're just creating 5 stars and positioning them
-    star1 = @canvas.path(star.path).attr(star.attr)
-    star2 = star1.clone().translate 20, 0
-    star3 = star2.clone().translate 20, 0
-    star4 = star3.clone().translate 20, 0
-    star5 = star4.clone().translate 20, 0
-    # Now we're collecting them together in an array
-    @stars = [star1, star2, star3, star4, star5]
+      # OK, hovering and clicking the stars isn't so user friendly let's make larger targets that sit above the stars
+      # TODO: only add when controllable
+      rect = @canvas.rect 6 + i * 20, 6, 20, 20
+      rect.attr
+        fill: '#fff'
+        opacity: 0
 
-    # OK, hovering and clicking the stars isn't so user friendly
-    # let's make larger targets that sit above the stars
-    rect_attrs = { fill: 'white', opacity: 0 }
-    rect1 = @canvas.rect(6, 6, 20, 20).attr rect_attrs
-    rect2 = @canvas.rect(26, 6, 20, 20).attr rect_attrs
-    rect3 = @canvas.rect(46, 6, 20, 20).attr rect_attrs
-    rect4 = @canvas.rect(66, 6, 20, 20).attr rect_attrs
-    rect5 = @canvas.rect(86, 6, 20, 20).attr rect_attrs
-    # Collect them together like the stars
-    @rects = [rect1, rect2, rect3, rect4, rect5]
+      @rects.push rect
+      @stars.push star
 
     # Now let's show it
     @showRating()
@@ -111,7 +113,7 @@ class RatingDisplay
     for i in [0...rating]
       # For active stars we'll style them
       @stars[i].attr
-        fill: '125-#ecc000-#fffbcf'
+        fill: @opts.fill
 
 ##################################################
 
