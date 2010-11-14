@@ -32,39 +32,51 @@
       this.el.addClass('has_ratemate');
       this.mate = $('<div class="ratemate"></div>');
       this.el.after(this.mate);
-      this.buildCanvas();
+      this.setupCanvas();
     }
     return this;
   };
   RatingDisplay.prototype.defaults = {
     max: 5,
-    width: 112,
+    width: 160,
     height: 32,
-    symbol: 'M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z',
+    drawSymbol: function() {
+      return this.path('M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z');
+    },
+    symbol_width: 32,
     stroke: '#ecc000',
     fill: '125-#ecc000-#fffbcf'
+  };
+  RatingDisplay.prototype.makeStarMethod = function() {
+    var _ref;
+    return !(typeof (_ref = Raphael.fn.ratemate) !== "undefined" && _ref !== null) ? (Raphael.fn.ratemate = {
+      symbol: this.opts.drawSymbol
+    }) : null;
   };
   RatingDisplay.prototype.setRating = function(value) {
     this.rating = parseInt(value, 10);
     return this.el.attr('value', this.rating);
   };
-  RatingDisplay.prototype.buildCanvas = function() {
+  RatingDisplay.prototype.setupCanvas = function() {
+    this.makeStarMethod();
     this.canvas = Raphael(this.mate.get()[0], this.opts.width, this.opts.height);
     return this.attackCanvas();
   };
   RatingDisplay.prototype.attackCanvas = function() {
-    var _ref, i, rect, star;
+    var _ref, i, rect, scale, star, star_width;
+    star_width = this.opts.width / this.opts.max;
+    scale = star_width / this.opts.symbol_width;
     this.stars = [];
     this.rects = [];
     _ref = this.opts.max;
     for (i = 0; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
-      star = this.canvas.path(this.opts.symbol);
+      star = this.canvas.ratemate.symbol();
       star.attr({
-        stroke: this.opts.stroke,
-        scale: '.5,.5'
+        stroke: this.opts.stroke
       });
-      star.translate(i * 20, 0);
-      rect = this.canvas.rect(6 + i * 20, 6, 20, 20);
+      star.scale(scale, scale);
+      star.translate(i * star_width, 0);
+      rect = this.canvas.rect(i * star_width, 0, star_width, star_width);
       rect.attr({
         fill: '#fff',
         opacity: 0

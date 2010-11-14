@@ -21,8 +21,6 @@ $.fn.extend
           # In display mode we're reading values from a meter element and displaying them in the rating canvas
           el.data 'ratemate', new RatingDisplay el, opts
 
-        # If the element is not a meter or input[type=number], don't do anything
-
 ##################################################
 ##################################################
 
@@ -45,15 +43,25 @@ class RatingDisplay
       # Insert it after the element
       @el.after @mate
       # Let's do the important stuff now...
-      @buildCanvas()
+      @setupCanvas()
 
   defaults:
     max: 5
-    width: 112
+    width: 160
     height: 32
-    symbol: 'M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z'
+    drawSymbol: ->
+      # this is the canvas
+      @path 'M15.999,22.77l-8.884,6.454l3.396-10.44l-8.882-6.454l10.979,0.002l2.918-8.977l0.476-1.458l3.39,10.433h10.982l-8.886,6.454l3.397,10.443L15.999,22.77L15.999,22.77z'
+    symbol_width: 32 #At a 1:1 scale, the star's width is 32px
     stroke: '#ecc000'
     fill: '125-#ecc000-#fffbcf'
+
+  # Add a custom method to the Raphaël canvas to draw the symbol
+  # We're also creating a namespace for other ratemate custom methods
+  makeStarMethod: ->
+    unless Raphael.fn.ratemate?
+      Raphael.fn.ratemate =
+        symbol: @opts.drawSymbol
 
   setRating: (value) ->
     # Set it in this class
@@ -62,14 +70,20 @@ class RatingDisplay
     @el.attr 'value', @rating
 
   # This is just going to call a couple of methods responsible for setting this up
-  buildCanvas: ->
+  setupCanvas: ->
+    # Setup the ability to attack
+    @makeStarMethod()
     # We want a Raphaël canvas containing stars whose characteristics show the rating
-    @canvas = Raphael @mate.get()[0], @opts.width, @opts.height 
+    @canvas = Raphael @mate.get()[0], @opts.width, @opts.height
     # Paint the picture
     @attackCanvas()
 
   # We want to put stars in the canvas to show the rating
   attackCanvas: ->
+
+    # Let's work out what the container needs
+    star_width =  @opts.width/@opts.max
+    scale = star_width/@opts.symbol_width
 
     # Create the stars
     @stars = []
@@ -78,17 +92,18 @@ class RatingDisplay
     for i in [0...@opts.max]
 
       # Create the star
-      star = @canvas.path @opts.symbol
+      star = @canvas.ratemate.symbol()
       # Style it
       star.attr
         stroke: @opts.stroke
-        scale: '.5,.5'
+      # Scale to fit
+      star.scale scale, scale
       # Position it
-      star.translate i * 20, 0
+      star.translate i * star_width, 0
 
       # OK, hovering and clicking the stars isn't so user friendly let's make larger targets that sit above the stars
       # TODO: only add when controllable
-      rect = @canvas.rect 6 + i * 20, 6, 20, 20
+      rect = @canvas.rect i * star_width, 0, star_width, star_width
       rect.attr
         fill: '#fff'
         opacity: 0
