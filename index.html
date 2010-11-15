@@ -1,1 +1,29 @@
-jquery.ratemate
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <h1>ratemate</h1>
+    <p>Ratemate is a jQuery plugin for ratings. It uses Raphaël to draw the symbols.</p> 
+    <meter max="5" min="0" value="5">Heaps good</meter>    
+    <p>The rating is read&ndash;only when used on a meter element, that's how the above stars have been made:</p>
+    <pre>&lt;meter max="5" min="0" value="5"&gt;Heaps good&lt;/meter&gt;
+
+$('meter').ratemate({ width: 500, height: 102 });</pre>
+    <p>Using ratemate on an input element whose type is &ldquo;number&rdquo; will cause the rating to be controllable by the user:</p>
+    <input max="5" min="0" step="1" type="number" value="0">
+    <pre>&lt;input max="5" min="0" step="1" type="number" value="0"&gt;
+
+$('input').ratemate({ width: 500, height: 102 });</pre>
+    <script src="jquery-1.4.4.min.js"></script>
+    <script src="raphael-min.js"></script>
+    <script src="jquery.ratemate.js"></script>
+    <script>
+      $(function () {
+        $('meter, input').ratemate({ width: 400, height: 98 });
+      });
+    </script>
+  </body>
+</html>
