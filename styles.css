@@ -120,13 +120,45 @@ body {
   h1, h2 {
     color: #fff;
     text-shadow: #0099d3 1px 1px 0;
-    margin: 100px 0 25px 0;
+    margin: 50px 0 25px 0;
   }
   h1 {
     font-size: 6em;
   }
   h2 {
+    margin-top: 100px;
     font-size: 4em;
+  }
+  a#get-code {
+    margin: 0 auto;
+    display: block;
+    font-size: 2em;
+    margin-bottom: 25px;
+    width: 200px;
+    padding: 10px 10px 8px 10px;
+    border-radius: 10px;
+    text-shadow: #0099d3 1px 1px 0;
+  }
+  a#get-code:link, a#get-code:visited {
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+  a#get-code:active, a#get-code:hover, a#get-code:focus {
+    color: #ffd766;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  a {
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  a:link, a:visited {
+    color: #333;
+  }
+  a:active, a:hover, a:focus {
+    color: #777;
   }
   input, meter {
     display: none;

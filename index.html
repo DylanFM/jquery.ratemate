@@ -8,16 +8,17 @@
     <h1>ratemate</h1>
     <section id="intro">
       <p>Ratemate is a jQuery plugin for ratings. It uses Raphaël to draw the symbols.</p> 
+      <a href="https://github.com/dylanfm/jquery.ratemate" title="Check out the jQuery.ratemate code" id="get-code">Get the code</a>
       <meter max="5" min="0" value="5">Heaps good</meter>    
       <p>The rating is read&ndash;only when used on a meter element, that's how the above stars have been made:</p>
       <pre>&lt;meter max="5" min="0" value="5"&gt;Heaps good&lt;/meter&gt;
 
-  $('meter').ratemate({ width: 500, height: 102 });</pre>
+$('meter').ratemate({ width: 500, height: 102 });</pre>
       <p>Using ratemate on an input element whose type is &ldquo;number&rdquo; or &ldquo;range&rdquo; will cause the rating to be controllable by the user:</p>
       <input max="5" min="0" step="1" type="number" value="0">
       <pre>&lt;input max="5" min="0" step="1" type="number" value="0"&gt;
 
-  $('input').ratemate({ width: 500, height: 102 });</pre>
+$('input').ratemate({ width: 500, height: 102 });</pre>
     </section>
 
     <section id="sizing">
@@ -35,7 +36,7 @@
 
     <section id="max">
       <h2>Amounts</h2>
-      <p>You can have heaps of stars, or not so many if you wish:</p>
+      <p>You can have heaps of stars, or not so many if you wish. Ratemate will read the element's &ldquo;max&rdquo; attribute:</p>
       <meter max="1" min="0" value="1.0">3.0 out of 3.0</meter>    
       <meter max="2" min="0" value="2.0">3.0 out of 3.0</meter>    
       <meter max="3" min="0" value="3.0">3.0 out of 3.0</meter>    
@@ -48,7 +49,14 @@
       <meter max="10" min="0" value="3.0">3.0 out of 10.0</meter>    
       <meter max="11" min="0" value="3.0">3.0 out of 11.0</meter>    
 
-      <pre>$('meter').ratemate();</pre>
+      <pre>&lt;meter max="9" min="0" value="7"&gt;Sweet&lt;/meter&gt;
+      
+$('meter').ratemate();</pre>
+    </section>
+
+    <section id="other-things">
+      <h2>Other things</h2>
+      <p>There are more configurable options, such as the colours and SVG string for the symbol. Have a look at <a href="https://github.com/dylanfm/jquery.ratemate" title="Check out the jQuery.ratemate code">the code</a></p>
     </section>
  
     <script src="jquery-1.4.4.min.js"></script>
