@@ -97,7 +97,7 @@ class RatingDisplay
       star.attr
         stroke: @opts.stroke
       # Scale to fit
-      star.scale scale, scale
+      star.scale scale, scale, 0, 0
       # Position it
       star.translate i * star_width, 0
 

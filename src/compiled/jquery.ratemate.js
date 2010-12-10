@@ -74,7 +74,7 @@
         star.attr({
           stroke: this.opts.stroke
         });
-        star.scale(scale, scale);
+        star.scale(scale, scale, 0, 0);
         star.translate(i * star_width, 0);
         rect = this.canvas.rect(i * star_width, 0, star_width, star_width);
         rect.attr({

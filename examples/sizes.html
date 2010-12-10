@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <style>
+      meter { display: none; }
+      .ratemate.control { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <h1>Sizes</h1>
+    <meter max="5" min="0" value="5.0" data-dimensions="[25,10]">5.0 out of 5.0</meter>    
+    <meter max="5" min="0" value="5.0" data-dimensions="[50,20]">5.0 out of 5.0</meter>    
+    <meter max="5" min="0" value="5.0" data-dimensions="[100,30]">5.0 out of 5.0</meter>    
+    <meter max="5" min="0" value="5.0" data-dimensions="[200,50]">5.0 out of 5.0</meter>    
+    <meter max="5" min="0" value="5.0" data-dimensions="[400,90]">5.0 out of 5.0</meter>    
+    <meter max="5" min="0" value="5.0" data-dimensions="[800,170]">5.0 out of 5.0</meter>    
+    <meter max="5" min="0" value="5.0" data-dimensions="[1600,330]">5.0 out of 5.0</meter>    
+
+    <script src="../lib/jquery-1.4.4.min.js"></script>
+    <script src="../lib/raphael-min.js"></script>
+    <script src="../src/compiled/jquery.ratemate.js"></script>
+    <script>
+      $(function () {
+        $('meter').each(function () {
+          var rating = $(this)
+              dimensions = rating.data('dimensions');
+          rating.ratemate({ width: dimensions[0], height: dimensions[1] });
+        });
+      });
+    </script>
+  </body>
+</html>
