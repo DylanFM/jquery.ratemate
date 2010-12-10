@@ -108,11 +108,11 @@ input, select {
 }
 
 /* Styles */
-body {
+html {
   text-align: center;
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
-  background-image: -webkit-gradient(linear, right top, left bottom, from(#6fbde2), to(#9cdff2)); 
+  background-image: -webkit-gradient(linear, left bottom, left top, from(#6fbde2), to(#9cdff2)); 
   background-image: linear-gradient(top, #6fbde2, #9cdff2);
   color: #555;
 }
