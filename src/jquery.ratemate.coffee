@@ -130,6 +130,14 @@ class RatingDisplay
       @stars[i].attr
         fill: @opts.fill
 
+
+  flashStar: (key) ->
+
+    star = @stars[key]
+    if star?
+      star.animate { opacity: 0 }, 100, ->
+        star.animate { opacity: 1 }, 100
+
 ##################################################
 
 # The rating control extends the rating display and allows for controlling the value of the input
@@ -157,6 +165,8 @@ class RatingControl extends RatingDisplay
       rect.click (e) =>
         # Set the rating
         @setRating val
+        # Flash the star
+        @flashStar (val - 1)
         # and show it
         @showRating()
 

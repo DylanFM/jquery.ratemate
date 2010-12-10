@@ -110,6 +110,19 @@
       }
       return _results;
     };
+    RatingDisplay.prototype.flashStar = function(key) {
+      var star;
+      star = this.stars[key];
+      if (star != null) {
+        return star.animate({
+          opacity: 0
+        }, 100, function() {
+          return star.animate({
+            opacity: 1
+          }, 100);
+        });
+      }
+    };
     return RatingDisplay;
   }();
   RatingControl = function() {
@@ -127,6 +140,7 @@
         val = i + 1;
         rect.click(__bind(function(e) {
           this.setRating(val);
+          this.flashStar(val - 1);
           return this.showRating();
         }, this));
         rect.mouseover(__bind(function(e) {
