@@ -13,8 +13,14 @@
     ratemate: function(opts) {
       if (this.length) {
         return this.each(function() {
-          var el;
+          var attrs, el;
           el = $(this);
+          attrs = {
+            max: el.attr('max'),
+            min: el.attr('min'),
+            value: el.attr('value')
+          };
+          opts = $.extend({}, attrs, opts);
           if (el.is('input[type="number"],input[type="range"]')) {
             return el.data('ratemate', new RatingControl(el, opts));
           } else if (el.is('meter')) {

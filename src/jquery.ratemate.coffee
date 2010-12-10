@@ -10,6 +10,14 @@ $.fn.extend
 
         el = $ this
 
+        # Read the attributes and use them as options, but override with passed options
+        attrs =
+          max: el.attr('max')
+          min: el.attr('min')
+          value: el.attr('value')
+
+        opts = $.extend {}, attrs, opts
+
         # Let's find out if we're just displaying a rating or providing a control
         if el.is 'input[type="number"],input[type="range"]'
 
