@@ -1,6 +1,6 @@
 # Ratemate
 
-The goal of this little jQuery plugin is to provide a rating widget wrapping the HTML5 meter and input[type=number] elements. The rating will be displayed and/or controlled using a Raphaël canvas.
+The goal of this little jQuery plugin is to provide a rating widget wrapping the HTML5 meter, input[type=number] and input[type=range] elements. The rating will be displayed and/or controlled using a Raphaël canvas.
 
 This plugin is being developed in CoffeeScript. Grab the compiled jQuery plugin from src/compiled/.
 

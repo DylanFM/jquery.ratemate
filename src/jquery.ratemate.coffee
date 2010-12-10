@@ -11,7 +11,7 @@ $.fn.extend
         el = $ this
 
         # Let's find out if we're just displaying a rating or providing a control
-        if el.is 'input[type="number"]'
+        if el.is 'input[type="number"],input[type="range"]'
 
           # In control mode we'll be displaying the rating but also allowing the user to set the rating via the stars
           el.data 'ratemate', new RatingControl el, opts
