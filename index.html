@@ -6,23 +6,63 @@
   </head>
   <body>
     <h1>ratemate</h1>
-    <p>Ratemate is a jQuery plugin for ratings. It uses Raphaël to draw the symbols.</p> 
-    <meter max="5" min="0" value="5">Heaps good</meter>    
-    <p>The rating is read&ndash;only when used on a meter element, that's how the above stars have been made:</p>
-    <pre>&lt;meter max="5" min="0" value="5"&gt;Heaps good&lt;/meter&gt;
+    <section id="intro">
+      <p>Ratemate is a jQuery plugin for ratings. It uses Raphaël to draw the symbols.</p> 
+      <meter max="5" min="0" value="5">Heaps good</meter>    
+      <p>The rating is read&ndash;only when used on a meter element, that's how the above stars have been made:</p>
+      <pre>&lt;meter max="5" min="0" value="5"&gt;Heaps good&lt;/meter&gt;
 
-$('meter').ratemate({ width: 500, height: 102 });</pre>
-    <p>Using ratemate on an input element whose type is &ldquo;number&rdquo; will cause the rating to be controllable by the user:</p>
-    <input max="5" min="0" step="1" type="number" value="0">
-    <pre>&lt;input max="5" min="0" step="1" type="number" value="0"&gt;
+  $('meter').ratemate({ width: 500, height: 102 });</pre>
+      <p>Using ratemate on an input element whose type is &ldquo;number&rdquo; or &ldquo;range&rdquo; will cause the rating to be controllable by the user:</p>
+      <input max="5" min="0" step="1" type="number" value="0">
+      <pre>&lt;input max="5" min="0" step="1" type="number" value="0"&gt;
 
-$('input').ratemate({ width: 500, height: 102 });</pre>
+  $('input').ratemate({ width: 500, height: 102 });</pre>
+    </section>
+
+    <section id="sizing">
+      <h2>Sizing</h2>
+      <p>Your ratemate can be all different sizes:</p>
+      <meter max="5" min="0" value="5.0" data-dimensions="[25,10]">5.0 out of 5.0</meter>    
+      <meter max="5" min="0" value="5.0" data-dimensions="[50,20]">5.0 out of 5.0</meter>    
+      <meter max="5" min="0" value="5.0" data-dimensions="[100,30]">5.0 out of 5.0</meter>    
+      <meter max="5" min="0" value="5.0" data-dimensions="[200,50]">5.0 out of 5.0</meter>    
+      <meter max="5" min="0" value="5.0" data-dimensions="[400,90]">5.0 out of 5.0</meter>    
+      <meter max="5" min="0" value="5.0" data-dimensions="[800,170]">5.0 out of 5.0</meter>    
+
+      <pre>$('meter').ratemate({ width: someWidth, height: someHeight });</pre>
+    </section>
+
+    <section id="max">
+      <h2>Amounts</h2>
+      <p>You can have heaps of stars, or not so many if you wish:</p>
+      <meter max="3" min="0" value="3.0">3.0 out of 3.0</meter>    
+      <meter max="4" min="0" value="3.0">3.0 out of 4.0</meter>    
+      <meter max="5" min="0" value="3.0">3.0 out of 5.0</meter>    
+      <meter max="6" min="0" value="3.0">3.0 out of 6.0</meter>    
+      <meter max="7" min="0" value="3.0">3.0 out of 7.0</meter>    
+      <meter max="8" min="0" value="3.0">3.0 out of 8.0</meter>    
+      <meter max="9" min="0" value="3.0">3.0 out of 9.0</meter>    
+      <meter max="10" min="0" value="3.0">3.0 out of 10.0</meter>    
+      <meter max="11" min="0" value="3.0">3.0 out of 11.0</meter>    
+
+      <pre>$('meter').ratemate();</pre>
+    </section>
+ 
     <script src="jquery-1.4.4.min.js"></script>
     <script src="raphael-min.js"></script>
     <script src="jquery.ratemate.js"></script>
     <script>
       $(function () {
-        $('meter, input').ratemate({ width: 400, height: 98 });
+        $('#intro').find('meter, input').ratemate({ width: 400, height: 98 });
+
+        $('#sizing meter').each(function () {
+          var rating = $(this)
+              dimensions = rating.data('dimensions');
+          rating.ratemate({ width: dimensions[0], height: dimensions[1] });
+        });
+
+        $('#max meter').ratemate();
       });
     </script>
   </body>

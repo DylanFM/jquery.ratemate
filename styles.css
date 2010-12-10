@@ -108,19 +108,24 @@ input, select {
 }
 
 /* Styles */
-html {
+body {
   text-align: center;
   font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-rendering: optimizeLegibility;
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#6fbde2), to(#9cdff2)); 
+  background-image: -webkit-gradient(linear, right bottom, left top, from(#6fbde2), to(#9cdff2)); 
   background-image: linear-gradient(top, #6fbde2, #9cdff2);
   color: #555;
 }
-  h1 {
+  h1, h2 {
     color: #fff;
     text-shadow: #0099d3 1px 1px 0;
     margin: 50px 0 25px 0;
+  }
+  h1 {
     font-size: 6em;
+  }
+  h2 {
+    font-size: 4em;
   }
   input, meter {
     display: none;
