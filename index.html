@@ -36,6 +36,8 @@
     <section id="max">
       <h2>Amounts</h2>
       <p>You can have heaps of stars, or not so many if you wish:</p>
+      <meter max="1" min="0" value="1.0">3.0 out of 3.0</meter>    
+      <meter max="2" min="0" value="2.0">3.0 out of 3.0</meter>    
       <meter max="3" min="0" value="3.0">3.0 out of 3.0</meter>    
       <meter max="4" min="0" value="3.0">3.0 out of 4.0</meter>    
       <meter max="5" min="0" value="3.0">3.0 out of 5.0</meter>    
@@ -62,7 +64,11 @@
           rating.ratemate({ width: dimensions[0], height: dimensions[1] });
         });
 
-        $('#max meter').ratemate();
+        $('#max meter').each(function () {
+          var rating = $(this)
+              max = parseInt(rating.attr('max'), 10);
+          rating.ratemate({ width: (52 * max), height: 55 });
+        });
       });
     </script>
   </body>
