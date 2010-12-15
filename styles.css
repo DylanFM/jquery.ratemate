@@ -114,7 +114,7 @@ body {
   text-rendering: optimizeLegibility;
   background-image: -webkit-gradient(linear, right bottom, left top, from(#6fbde2), to(#9cdff2)); 
   background-image: linear-gradient(top, #6fbde2, #9cdff2);
-  color: #555;
+  color: #111;
   padding-bottom: 100px;
 }
   h1, h2 {
