@@ -21,7 +21,7 @@
             value: el.attr('value')
           };
           opts = $.extend({}, attrs, opts);
-          if (el.is('input[type="number"],input[type="range"]')) {
+          if (el.is('input[type="text"],input[type="number"],input[type="range"]')) {
             return el.data('ratemate', new RatingControl(el, opts));
           } else if (el.is('meter')) {
             return el.data('ratemate', new RatingDisplay(el, opts));
@@ -30,7 +30,7 @@
       }
     }
   });
-  RatingDisplay = function() {
+  RatingDisplay = (function() {
     function RatingDisplay(el, opts) {
       this.el = $(el);
       this.opts = $.extend({}, this.defaults, opts);
@@ -130,18 +130,18 @@
       }
     };
     return RatingDisplay;
-  }();
-  RatingControl = function() {
+  })();
+  RatingControl = (function() {
+    __extends(RatingControl, RatingDisplay);
     function RatingControl(el, opts) {
       RatingControl.__super__.constructor.call(this, el, opts);
       this.makeControllable();
     }
-    __extends(RatingControl, RatingDisplay);
     RatingControl.prototype.makeControllable = function() {
-      var _fn, _ref, _results;
+      var i, rect, val, _ref, _results;
       this.mate.addClass('control');
-      _fn = function(i) {
-        var rect, val;
+      _results = [];
+      for (i = 0, _ref = this.rects.length; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
         rect = this.rects[i];
         val = i + 1;
         rect.click(__bind(function(e) {
@@ -152,20 +152,16 @@
         rect.mouseover(__bind(function(e) {
           return this.showRating(val);
         }, this));
-        return _results.push(rect.mouseout(__bind(function(e) {
+        _results.push(rect.mouseout(__bind(function(e) {
           if (this.rating) {
             return this.showRating();
           } else {
             return this.clear();
           }
         }, this)));
-      };
-      _results = [];
-      for (i = 0, _ref = this.rects.length; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
-        _fn.call(this, i);
       }
       return _results;
     };
     return RatingControl;
-  }();
+  })();
 }).call(this);
