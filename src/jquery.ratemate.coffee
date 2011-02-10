@@ -75,7 +75,7 @@ class RatingDisplay
     # Set it in this class
     @rating = parseInt value, 10
     # Set it on the element
-    @el.attr 'value', @rating
+    @el.val @rating
 
   # This is just going to call a couple of methods responsible for setting this up
   setupCanvas: ->
@@ -169,26 +169,28 @@ class RatingControl extends RatingDisplay
       rect = @rects[i]
       val = i + 1
 
-      # When a star is clicked
-      rect.click (e) =>
-        # Set the rating
-        @setRating val
-        # Flash the star
-        @flashStar (val - 1)
-        # and show it
-        @showRating()
+      do (val, rect) =>
 
-      # When a star is moused over
-      rect.mouseover (e) =>
-        # Show its value
-        @showRating val
-
-      # When a star is no longer moused over
-      rect.mouseout (e) =>
-        # If there's a rating, show the rating
-        if @rating
+        # When a star is clicked
+        rect.click (e) =>
+          # Set the rating
+          @setRating val
+          # Flash the star
+          @flashStar (val - 1)
+          # and show it
           @showRating()
-        # or clear the ratings
-        else 
-          @clear()
+
+        # When a star is moused over
+        rect.mouseover (e) =>
+          # Show its value
+          @showRating val
+
+        # When a star is no longer moused over
+        rect.mouseout (e) =>
+          # If there's a rating, show the rating
+          if @rating
+            @showRating()
+          # or clear the ratings
+          else 
+            @clear()
 

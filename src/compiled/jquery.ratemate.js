@@ -62,7 +62,7 @@
     };
     RatingDisplay.prototype.setRating = function(value) {
       this.rating = parseInt(value, 10);
-      return this.el.attr('value', this.rating);
+      return this.el.val(this.rating);
     };
     RatingDisplay.prototype.setupCanvas = function() {
       this.makeStarMethod();
@@ -144,21 +144,23 @@
       for (i = 0, _ref = this.rects.length; (0 <= _ref ? i < _ref : i > _ref); (0 <= _ref ? i += 1 : i -= 1)) {
         rect = this.rects[i];
         val = i + 1;
-        rect.click(__bind(function(e) {
-          this.setRating(val);
-          this.flashStar(val - 1);
-          return this.showRating();
-        }, this));
-        rect.mouseover(__bind(function(e) {
-          return this.showRating(val);
-        }, this));
-        _results.push(rect.mouseout(__bind(function(e) {
-          if (this.rating) {
+        _results.push(__bind(function(val, rect) {
+          rect.click(__bind(function(e) {
+            this.setRating(val);
+            this.flashStar(val - 1);
             return this.showRating();
-          } else {
-            return this.clear();
-          }
-        }, this)));
+          }, this));
+          rect.mouseover(__bind(function(e) {
+            return this.showRating(val);
+          }, this));
+          return rect.mouseout(__bind(function(e) {
+            if (this.rating) {
+              return this.showRating();
+            } else {
+              return this.clear();
+            }
+          }, this));
+        }, this)(val, rect));
       }
       return _results;
     };
